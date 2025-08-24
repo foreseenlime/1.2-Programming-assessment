@@ -55,3 +55,38 @@ answers = [
     "rhetoricalquestion"
 ]
 
+# maybe have dictionary with question and answer in key and entry??
+# no i think it will be easier to just have a seperate answer and question key
+
+# calculate score function
+# probably just take code from old quiz for this
+# (e.g. score == difficulty / guesses)
+# idk
+
+
+# main game function
+# this is where the user will be prompted with a question and needs to answer
+# create a new list with randomized order
+# print(questions[x])
+# if answers[x] == answer:
+# print(YES!!!)
+# else: 
+# print(no....)
+# print(correct answer)
+
+
+
+
+# TESTING AREA
+# LEAVE THIS AT THE BOTTOM
+
+listlist = [
+    "question1",
+    "question2",
+    "question3",
+    "question4",
+    "question5"
+]
+
+length = (len(listlist) - 1)
+
