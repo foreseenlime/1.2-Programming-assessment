@@ -88,5 +88,21 @@ listlist = [
     "question5"
 ]
 
-length = (len(listlist) - 1)
+removed = 1
+
+looplist = []
+
+for i in range(0, len(listlist)):
+    looplist.append(listlist[i])
+
+for i in range(0, len(listlist)):
+    length = (len(listlist) - removed)
+    ''
+    number = random.randint(0, length)
+
+    print(looplist[number])
+
+    looplist.remove(number)
+
+    removed += 1
 
