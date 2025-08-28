@@ -91,28 +91,35 @@ def calc_score(time:float, points:int) -> int:
 
 def quiz(questions, answers):
 
-    # varible to count amount of elements removed from the list
-    removed = 1
-
     # loop list for however many items are in it at the beginning
     for i in range(0, len(questions)):
 
-        # recount the length of the list each time something is removed
-        length = (len(questions) - removed)
-
         # get a random element in the current list
-        number = random.randint(0, length)
+        number = random.randint(0, (len(questions) - 1))
         print(questions[number])
-        print(answers[number])
+        
+        answer = input(">>> ")
+
+        # remove whitespace and uppercase letters before checking
+        answer = answer.lower()
+        answer = answer.strip()
+        
+        # if input matches the question, correct
+        if answer == answers[number]:
+            print("\nCorrect\n")
+
+        # if not, incorrect
+        else:
+            print(f"\nIncorrect, the answer was {answers[number]}\n")
 
         # remove that element from the list so it doesn't get repeated
         questions.remove(questions[number])
         answers.remove(answers[number])
 
-        # add one more removed variable
-        removed += 1
+        # this will loop till all of the questions in the list have been asked
 
 
+quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
 
 # start menu function
 # ask what name is (this probably will be useless though)
@@ -173,3 +180,7 @@ def quiz(questions, answers):
 #     looplist.remove(looplist[number])
 
 #     removed += 1
+
+
+# clear terminal at end so terminal is kept tidy
+clear_terminal()
