@@ -32,9 +32,14 @@ clear_terminal()
 # return the neccesary list depending on what subject was chosen
 # e.g. if subject was english, return list for english questions and answers
 
+# list of subjects
+subject_list = ["english"]
+
 def pick_subject(subject:str):
 
-    if subject == "english":
+    global subject_list
+
+    if subject == subject_list[0]:
 
         return [
             "The car's tires screeched as she slammed on the brakes.",
@@ -57,9 +62,9 @@ def pick_subject(subject:str):
             "metaphor",
             "simile",
             "enjambment",
-            "sensorylanguage",
+            "sensory language",
             "hyperbole",
-            "rhetoricalquestion"
+            "rhetorical question"
         ]
 
     # this return message is just so that it doesn't get errors when calling this
@@ -89,7 +94,13 @@ def calc_score(time:float, points:int) -> int:
 # print(no....)
 # print(correct answer)
 
+# ADD MULTI CHOICE
+
 def quiz(questions, answers):
+
+    multichoice_options = answers
+
+    score = 0
 
     # loop list for however many items are in it at the beginning
     for i in range(0, len(questions)):
@@ -97,6 +108,40 @@ def quiz(questions, answers):
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
         print(questions[number])
+
+        print("question printed")
+
+        options = []
+        for i in range(0, 3):
+            cannot_add = True
+
+            print("loop started")
+
+            while cannot_add == True:
+
+                print("loop two started")
+                # pick random items from the multichoice items list
+                add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
+
+                # check that the chosen item is not the actual question 
+                # and not already in the multichoice list
+                if add_item != answers[number] and add_item not in options:
+                    options.append(add_item)
+                    cannot_add = False
+                    print("multichoice added")
+
+            print("loop 2 finished")
+
+        print("loop finished")
+
+        # add the actual answer to the list
+        options.append(answers[number])
+        print("answer appened")
+        # randomize order of the multichoice
+        random.shuffle(options)
+        print("questions shuffled")
+
+        print(options)
         
         answer = input(">>> ")
 
@@ -107,6 +152,7 @@ def quiz(questions, answers):
         # if input matches the question, correct
         if answer == answers[number]:
             print("\nCorrect\n")
+            score += 1
 
         # if not, incorrect
         else:
@@ -119,7 +165,7 @@ def quiz(questions, answers):
         # this will loop till all of the questions in the list have been asked
 
 
-quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
+# quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
 
 # start menu function
 # ask what name is (this probably will be useless though)
@@ -131,6 +177,46 @@ quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
 
 # choose difficulty for timed run ???
 
+def start_menu():
+    global subject_list
+    print("Welcome to the revision game!")
+    print("What is your name?")
+    name = input(">>> ")
+
+    print("What subject would you like to revise for?")
+    print(f"(options: {subject_list})")
+
+    subject = ""
+    subject_chosen = False
+
+    # make sure user inputs a correct subject to study
+    while subject_chosen == False:
+        subject = input(">>> ")
+
+        subject = subject.strip()
+        subject = subject.lower()
+
+        # if subect is valid, start
+        if subject in subject_list:
+            subject_chosen = True
+
+        else:
+            print("Please select a valid subject")
+            print(f"(options: {subject_list})")
+
+    # loading screen
+    clear_terminal()
+    print("Starting game...")
+    time.sleep(random.randint(1, 5))
+    clear_terminal()
+
+    # get list of questions for the quiz
+    questions, answers = pick_subject(subject)
+
+    # call quiz function
+    quiz(questions, answers)
+
+start_menu()
 
 # main loop/end menu
 # have score variable set to call start menu function since it will return score once finished
