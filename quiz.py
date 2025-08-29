@@ -105,24 +105,27 @@ def quiz(questions, answers):
     # loop list for however many items are in it at the beginning
     for i in range(0, len(questions)):
 
+        print(multichoice_options)
+
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
         print(questions[number])
 
-        print("question printed")
+        print(f"answer: {answers[number]}")
 
         options = []
         for i in range(0, 3):
             cannot_add = True
 
-            print("loop started")
-
             while cannot_add == True:
 
-                print("loop two started")
+                print("loop started")
+                time.sleep(0.5)
                 # pick random items from the multichoice items list
                 add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
 
+                print(f"word chosen: {add_item}")
+                time.sleep(1)
                 # check that the chosen item is not the actual question 
                 # and not already in the multichoice list
                 if add_item != answers[number] and add_item not in options:
@@ -130,16 +133,18 @@ def quiz(questions, answers):
                     cannot_add = False
                     print("multichoice added")
 
-            print("loop 2 finished")
+                else:
+                    print("word not valid")
+                    time.sleep(1)
 
-        print("loop finished")
+            print(options)
+
+            print("loop finished")
 
         # add the actual answer to the list
         options.append(answers[number])
-        print("answer appened")
         # randomize order of the multichoice
         random.shuffle(options)
-        print("questions shuffled")
 
         print(options)
         
