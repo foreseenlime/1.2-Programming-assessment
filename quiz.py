@@ -98,14 +98,16 @@ def calc_score(time:float, points:int) -> int:
 
 def quiz(questions, answers):
 
+    # create new list for the multichoice options
     multichoice_options = answers
 
     score = 0
 
+    # record start time
+    time_start = time.time()
+
     # loop list for however many items are in it at the beginning
     for i in range(0, len(questions)):
-
-        print(multichoice_options)
 
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
@@ -113,40 +115,32 @@ def quiz(questions, answers):
 
         print(f"answer: {answers[number]}")
 
-        options = []
-        for i in range(0, 3):
-            cannot_add = True
+        if len(multichoice_options) > 3:
 
-            while cannot_add == True:
+            options = []
 
-                print("loop started")
-                time.sleep(0.5)
-                # pick random items from the multichoice items list
-                add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
+            # adds three random words to a list to print for multichoice
+            for i in range(0, 3):
+                cannot_add = True
 
-                print(f"word chosen: {add_item}")
-                time.sleep(1)
-                # check that the chosen item is not the actual question 
-                # and not already in the multichoice list
-                if add_item != answers[number] and add_item not in options:
-                    options.append(add_item)
-                    cannot_add = False
-                    print("multichoice added")
+                # loops so that if the word cannot be added, try with another word
+                while cannot_add == True:
 
-                else:
-                    print("word not valid")
-                    time.sleep(1)
+                    # pick random items from the multichoice items list
+                    add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
+
+                    # check that the chosen item is not the actual question 
+                    # and not already in the multichoice list
+                    if add_item != answers[number] and add_item not in options:
+                        options.append(add_item)
+                        cannot_add = False
+
+            # add the actual answer to the list
+            options.append(answers[number])
+            # randomize order of the multichoice
+            random.shuffle(options)
 
             print(options)
-
-            print("loop finished")
-
-        # add the actual answer to the list
-        options.append(answers[number])
-        # randomize order of the multichoice
-        random.shuffle(options)
-
-        print(options)
         
         answer = input(">>> ")
 
@@ -164,10 +158,19 @@ def quiz(questions, answers):
             print(f"\nIncorrect, the answer was {answers[number]}\n")
 
         # remove that element from the list so it doesn't get repeated
+
+        # THIS IS WHERE MY CODE FUCKS UP AND I DONT KNOW WHY
         questions.remove(questions[number])
         answers.remove(answers[number])
 
         # this will loop till all of the questions in the list have been asked
+
+    # record finish time
+    time_finish = time.time()
+    # calculate time in game
+    time_delta = time_finish - time_start
+    # return score and time taken
+    return score, time_delta
 
 
 # quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
@@ -219,14 +222,32 @@ def start_menu():
     questions, answers = pick_subject(subject)
 
     # call quiz function
-    quiz(questions, answers)
+    score, time_delta = quiz(questions, answers)
 
-start_menu()
+    # calcuate score
+    score = calc_score(time_delta, score)
+
+    return score
 
 # main loop/end menu
 # have score variable set to call start menu function since it will return score once finished
 # print the player's score back to them 
 # ask the player if they want to play again
+
+while True:
+    # start_game returns score
+    score = start_menu()
+
+    print(f"You got {score} questions right!")
+    print("Play again?")
+    print("(enter = yes; X = no)")
+    repeat = input(">>> ")
+
+    if repeat.lower() == "x":
+        break
+    else:
+        clear_terminal()
+        continue
 
 
 # TESTING AREA---------------------------------------------------------------
