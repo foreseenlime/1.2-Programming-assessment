@@ -33,7 +33,7 @@ clear_terminal()
 # e.g. if subject was english, return list for english questions and answers
 
 # list of subjects
-subject_list = ["english"]
+subject_list = ["english", "test"]
 
 def pick_subject(subject:str):
 
@@ -65,6 +65,13 @@ def pick_subject(subject:str):
             "sensory language",
             "hyperbole",
             "rhetorical question"
+        ]
+    
+    if subject == subject_list[1]:
+        return [
+            "q1", "q2", "q3", "q4", "q5"
+        ], [
+            "a1", "a2", "a3", "a4", "a5"
         ]
 
     # this return message is just so that it doesn't get errors when calling this
@@ -98,8 +105,7 @@ def calc_score(time:float, points:int) -> int:
 
 def quiz(questions, answers):
 
-    # create new list for the multichoice options
-    multichoice_options = answers
+    multichoice_options = answers.copy()
 
     score = 0
 
@@ -107,42 +113,43 @@ def quiz(questions, answers):
     time_start = time.time()
 
     # loop list for however many items are in it at the beginning
-    for i in range(0, len(questions)):
+    for x in range(0, len(questions)):
 
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
+        print("What is the following:")
         print(questions[number])
 
-        print(f"answer: {answers[number]}")
+        options = []
 
-        if len(multichoice_options) > 3:
+        # adds three random words to a list to print for multichoice
+        for j in range(0, 4):
+            cannot_add = True
 
-            options = []
+            # loops so that if the word cannot be added, try with another word
+            while cannot_add == True:
 
-            # adds three random words to a list to print for multichoice
-            for i in range(0, 3):
-                cannot_add = True
+                # pick random items from the multichoice items list
+                add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
 
-                # loops so that if the word cannot be added, try with another word
-                while cannot_add == True:
+                # check that the chosen item is not the actual question 
+                # and not already in the multichoice list
+                if add_item != answers[number] and add_item not in options:
+                    options.append(add_item)
+                    cannot_add = False
 
-                    # pick random items from the multichoice items list
-                    add_item = multichoice_options[random.randint(0, (len(multichoice_options) - 1))]
+        # add the actual answer to the list
+        options.append(answers[number])
+        # randomize order of the multichoice
+        random.shuffle(options)
 
-                    # check that the chosen item is not the actual question 
-                    # and not already in the multichoice list
-                    if add_item != answers[number] and add_item not in options:
-                        options.append(add_item)
-                        cannot_add = False
-
-            # add the actual answer to the list
-            options.append(answers[number])
-            # randomize order of the multichoice
-            random.shuffle(options)
-
-            print(options)
+        print("\nIt could be: \n")
+        for i in range(0, (len(options) - 1)):
+            word = options[i]
+            word = word.capitalize()
+            print(word)
         
-        answer = input(">>> ")
+        answer = input("\n>>> ")
 
         # remove whitespace and uppercase letters before checking
         answer = answer.lower()
@@ -158,8 +165,6 @@ def quiz(questions, answers):
             print(f"\nIncorrect, the answer was {answers[number]}\n")
 
         # remove that element from the list so it doesn't get repeated
-
-        # THIS IS WHERE MY CODE FUCKS UP AND I DONT KNOW WHY
         questions.remove(questions[number])
         answers.remove(answers[number])
 
@@ -172,8 +177,6 @@ def quiz(questions, answers):
     # return score and time taken
     return score, time_delta
 
-
-# quiz(["q1", "q2", "q3", "q4", "q5"], ["a1", "a2", "a3", "a4", "a5"])
 
 # start menu function
 # ask what name is (this probably will be useless though)
@@ -221,6 +224,10 @@ def start_menu():
     # get list of questions for the quiz
     questions, answers = pick_subject(subject)
 
+    # create new list of multichoice options
+    # this is needed because it is stupid and cant do it properly in the function
+    
+
     # call quiz function
     score, time_delta = quiz(questions, answers)
 
@@ -238,7 +245,7 @@ while True:
     # start_game returns score
     score = start_menu()
 
-    print(f"You got {score} questions right!")
+    print(f"You got {score} points!")
     print("Play again?")
     print("(enter = yes; X = no)")
     repeat = input(">>> ")
