@@ -194,8 +194,11 @@ def start_menu():
     print("What is your name?")
     name = input(">>> ")
 
+    # join all the items in the subject list to a string so it will print better
+    subject_options = ", ".join(subject_list)
+
     print("What subject would you like to revise for?")
-    print(f"(options: {subject_list})")
+    print(f"(options: {subject_options})")
 
     subject = ""
     subject_chosen = False
