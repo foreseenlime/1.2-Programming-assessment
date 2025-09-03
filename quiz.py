@@ -108,6 +108,7 @@ def quiz(questions, answers):
     multichoice_options = answers.copy()
 
     score = 0
+    question_num = 1
 
     # record start time
     time_start = time.time()
@@ -117,13 +118,13 @@ def quiz(questions, answers):
 
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
-        print("What is the following:")
+        print(f"(Question {question_num}/{len(multichoice_options)}) What is the following:")
         print(questions[number])
 
         options = []
 
         # adds three random words to a list to print for multichoice
-        for j in range(0, 4):
+        for j in range(0, 3):
             cannot_add = True
 
             # loops so that if the word cannot be added, try with another word
@@ -144,10 +145,10 @@ def quiz(questions, answers):
         random.shuffle(options)
 
         print("\nIt could be: \n")
-        for i in range(0, (len(options) - 1)):
-            word = options[i]
-            word = word.capitalize()
-            print(word)
+        print(f"A: {options[0]}")
+        print(f"B: {options[1]}")
+        print(f"C: {options[2]}")
+        print(f"D: {options[3]}")
         
         answer = input("\n>>> ")
 
@@ -157,16 +158,22 @@ def quiz(questions, answers):
         
         # if input matches the question, correct
         if answer == answers[number]:
-            print("\nCorrect\n")
+            print("\nYou got it correct!!\n")
             score += 1
 
         # if not, incorrect
         else:
             print(f"\nIncorrect, the answer was {answers[number]}\n")
 
+        # wait so the user can see the result
+        time.sleep(1)
+
         # remove that element from the list so it doesn't get repeated
         questions.remove(questions[number])
         answers.remove(answers[number])
+
+        # add 1 to the remaining questions
+        question_num += 1
 
         # this will loop till all of the questions in the list have been asked
 
@@ -219,10 +226,10 @@ def start_menu():
             print(f"(options: {subject_list})")
 
     # loading screen
-    clear_terminal()
-    print("Starting game...")
-    time.sleep(random.randint(1, 5))
-    clear_terminal()
+    # clear_terminal()
+    # print("Starting game...")
+    # time.sleep(random.randint(1, 5))
+    # clear_terminal()
 
     # get list of questions for the quiz
     questions, answers = pick_subject(subject)
