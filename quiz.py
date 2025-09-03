@@ -67,15 +67,17 @@ def pick_subject(subject:str):
             "rhetorical question"
         ]
     
-    if subject == subject_list[1]:
+    elif subject == subject_list[1]:
         return [
             "q1", "q2", "q3", "q4", "q5"
         ], [
             "a1", "a2", "a3", "a4", "a5"
         ]
+    
+    else:
 
-    # this return message is just so that it doesn't get errors when calling this
-    return [],[]
+        # this return message is just so that it doesn't get errors when calling this
+        return [],[]
 
 
 # maybe have dictionary with question and answer in key and entry??
@@ -103,7 +105,7 @@ def calc_score(time:float, points:int) -> int:
 
 # ADD MULTI CHOICE
 
-def quiz(questions, answers):
+def quiz(questions:list, answers:list):
 
     multichoice_options = answers.copy()
 
@@ -195,7 +197,7 @@ def quiz(questions, answers):
 
 # choose difficulty for timed run ???
 
-def start_menu():
+def start_menu() -> int:
     global subject_list
     print("Welcome to the revision game!")
     print("What is your name?")
