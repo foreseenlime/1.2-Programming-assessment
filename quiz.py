@@ -120,9 +120,12 @@ def quiz(questions:list, answers:list):
 
         # get a random element in the current list
         number = random.randint(0, (len(questions) - 1))
+
+        # prints what number question the user is currently on
         print(f"(Question {question_num}/{len(multichoice_options)}) What is the following:")
         print(questions[number])
 
+        # clear list of multichoice options
         options = []
 
         # adds three random words to a list to print for multichoice
@@ -146,11 +149,12 @@ def quiz(questions:list, answers:list):
         # randomize order of the multichoice
         random.shuffle(options)
 
+        # print the actual multichoice
         print("\nIt could be: \n")
-        print(f"A: {options[0]}")
-        print(f"B: {options[1]}")
-        print(f"C: {options[2]}")
-        print(f"D: {options[3]}")
+        for i in range(0, len(options)):
+            word = options[i]
+            word = word.capitalize()
+            print(word)
         
         answer = input("\n>>> ")
 
